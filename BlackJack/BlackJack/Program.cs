@@ -10,9 +10,12 @@ namespace BlackJack
     {
         static void Main(string[] args)
         {
-            //Player p1 = new Player();
-            //Console.WriteLine(p1.CardReturn().Length);
+            //#region Test Only
+            //TestOnly T = new TestOnly();
+            //T.Output(5);
             //Console.ReadKey();
+            //#endregion
+
             Game G = new Game();
             G.GameStart();
         }

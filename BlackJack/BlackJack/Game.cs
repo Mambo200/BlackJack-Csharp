@@ -8,27 +8,93 @@ namespace BlackJack
 {
     class Game
     {
+        Helper h = new Helper();
+        Player P1 = new Player();
+        Player P2 = new Player();
+
         public void GameStart()
         {
-            Player P1 = new Player();
-            Player P2 = new Player();
+            // turn player 1
+            bool dontDrawMore = false;
 
-            P1.SetCard(2);
-            P1.SetCard(3);
-            P1.SetCard(5);
-            P1.SetCard(4);
-            P1.SetCard(7);
-            P1.SetCard(78);
-            P1.SetCard(1);
-            P1.SetCard(5);
-            P1.SetCard(8);
-            P1.SetCard(9);
+            // Output new game
+            h.StartGameOutput();
 
-            for (int i = 0; i < P1.CardReturn().Length; i++)
+            // player 1 and 2 draw two cards
+            P1.DrawCard();
+            P2.DrawCard();
+            P1.DrawCard();
+            P2.DrawCard();
+
+            // show cards
+            while (!dontDrawMore)
             {
-                Console.WriteLine(P1.CardReturn(i));
+                Console.Clear();
+                ShowCards(false);
+
+                if (P1.AmountOfPoints(false) >= 21)
+                {
+                    dontDrawMore = true;
+                }
+                else
+                {
+                    string drawcard = Console.ReadLine().ToLower();
+                    if (drawcard == "y")
+                    {
+                        P1.DrawCard();
+                    }
+                    else if (drawcard == "n")
+                    {
+                        dontDrawMore = true;
+                    }
+                }
             }
+
+            // Turn Player 2
+            dontDrawMore = false;
+            while (!dontDrawMore)
+            {
+                if (P2.AmountOfPoints(false) >= 16 || P2.AmountOfPoints(false) > P1.AmountOfPoints(false))
+                {
+                    dontDrawMore = true;
+                }
+                else
+                {
+                    P2.DrawCard();
+                }
+            }
+
+            // show final results
+            Console.Clear();
+            Console.WriteLine("---Final Results----");
+            ShowCards(true);
+
+            // Win Lose output
+            h.WinLose(P1.AmountOfPoints(false), P2.AmountOfPoints(false));
             Console.ReadKey();
+        }
+
+        // ------------------------------------------------------------------------------------------------------//
+
+        /// <summary>
+        /// show cards of both players
+        /// </summary>
+        void ShowCards(bool _final)
+        {
+
+            P1.CardReturn(false, false);
+
+            if (_final)
+            {
+                P2.CardReturn(true,false);
+            }
+            else
+            {
+                P2.CardReturn(true, true);
+            }
+
+            if(!_final)
+                Console.WriteLine("\n\n\nDraw Card? (y/n)");
 
         }
     }
