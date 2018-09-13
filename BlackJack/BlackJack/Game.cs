@@ -14,64 +14,89 @@ namespace BlackJack
 
         public void GameStart()
         {
-            // turn player 1
-            bool dontDrawMore = false;
+            P1.Reset();
+            P2.Reset();
 
-            // Output new game
-            h.StartGameOutput();
-
-            // player 1 and 2 draw two cards
-            P1.DrawCard();
-            P2.DrawCard();
-            P1.DrawCard();
-            P2.DrawCard();
-
-            // show cards
-            while (!dontDrawMore)
+            while (true)
             {
-                Console.Clear();
-                ShowCards(false);
 
-                if (P1.AmountOfPoints(false) >= 21)
+
+                // turn player 1
+                bool dontDrawMore = false;
+
+                // Output new game
+                h.StartGameOutput();
+
+                // player 1 and 2 draw two cards
+                P1.DrawCard();
+                P2.DrawCard();
+                P1.DrawCard();
+                P2.DrawCard();
+
+                // show cards
+                while (!dontDrawMore)
                 {
-                    dontDrawMore = true;
-                }
-                else
-                {
-                    string drawcard = Console.ReadLine().ToLower();
-                    if (drawcard == "y")
-                    {
-                        P1.DrawCard();
-                    }
-                    else if (drawcard == "n")
+                    Console.Clear();
+                    ShowCards(false);
+
+                    if (P1.AmountOfPoints(false) >= 21)
                     {
                         dontDrawMore = true;
                     }
+                    else
+                    {
+                        string drawcard = Console.ReadLine().ToLower();
+                        if (drawcard == "y")
+                        {
+                            P1.DrawCard();
+                        }
+                        else if (drawcard == "n")
+                        {
+                            dontDrawMore = true;
+                        }
+                    }
                 }
-            }
 
-            // Turn Player 2
-            dontDrawMore = false;
-            while (!dontDrawMore)
-            {
-                if (P2.AmountOfPoints(false) >= 16 || P2.AmountOfPoints(false) > P1.AmountOfPoints(false))
-                {
+                // Turn Player 2
+                if (P1.AmountOfPoints(false) > 21)
                     dontDrawMore = true;
-                }
                 else
+                    dontDrawMore = false;
+                while (!dontDrawMore)
                 {
-                    P2.DrawCard();
+                    if (P2.AmountOfPoints(false) >= 16 || P2.AmountOfPoints(false) > P1.AmountOfPoints(false))
+                    {
+                        dontDrawMore = true;
+                    }
+                    else
+                    {
+                        P2.DrawCard();
+                    }
                 }
+
+                Console.ReadKey();
+
+                // show final results
+                Console.Clear();
+                Console.WriteLine("---Final Results----");
+                ShowCards(true);
+
+                // Win Lose output
+                switch (h.WinLose(P1.AmountOfPoints(false), P2.AmountOfPoints(false)))
+                {
+                    case 1:
+                        P1.AddWinPoints();
+                        break;
+                    case 2:
+                        P2.AddWinPoints();
+                        break;
+                }
+                //P1.WinOut();
+                //P2.WinOut();
+                P1.Reset();
+                P2.Reset();
+                Console.ReadKey();
             }
-
-            // show final results
-            Console.Clear();
-            Console.WriteLine("---Final Results----");
-            ShowCards(true);
-
-            // Win Lose output
-            h.WinLose(P1.AmountOfPoints(false), P2.AmountOfPoints(false));
-            Console.ReadKey();
         }
 
         // ------------------------------------------------------------------------------------------------------//
@@ -93,7 +118,7 @@ namespace BlackJack
                 P2.CardReturn(true, true);
             }
 
-            if(!_final)
+            if(!_final && P1.AmountOfPoints(false) <= 21)
                 Console.WriteLine("\n\n\nDraw Card? (y/n)");
 
         }

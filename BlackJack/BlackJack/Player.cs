@@ -8,6 +8,8 @@ namespace BlackJack
 {
     class Player
     {
+        Helper h = new Helper();
+        int won = 0;
         int countDrawCards = 10;
         int[] card = new int[21];
 
@@ -23,16 +25,20 @@ namespace BlackJack
         /// <param name="_count">false: show all cards, true: show all cards exept the first one</param>
         public void CardReturn(bool _player, bool _count)
         {
+            // Player 2
             if(_player)
             {
+                Console.Write("\nTotal: " + won);
                 Console.Write("\nSpieler 2: - ");
-                Console.WriteLine(AmountOfPoints(_count));
-
+                h.ColorText(AmountOfPoints(_count));
             }
+
+            // Player 1
             else
             {
+                Console.Write("\nTotal: " + won);
                 Console.Write("\nSpieler 1: - ");
-                Console.WriteLine(AmountOfPoints(_count));
+                h.ColorText(AmountOfPoints(_count));
             }
 
             for (int i = 0; i < card.Length; i++)
@@ -53,7 +59,7 @@ namespace BlackJack
         /// <summary>
         /// Amounts the of points.
         /// </summary>
-        /// <param name="_player">false: count all cards, true: count all cards exept the first one</param>
+        /// <param name="_count">false: count all cards, true: count all cards exept the first one</param>
         /// <returns>amount of points</returns>
         public int AmountOfPoints(bool _count)
         {
@@ -155,6 +161,28 @@ namespace BlackJack
                 realCard = _drawnCard;
 
             return realCard;
+        }
+
+        public void AddWinPoints()
+        {
+            won++;
+        }
+        public void AddWinPoints(int _amount)
+        {
+            won += _amount;
+        }
+
+        public void WinOut()
+        {
+            Console.WriteLine(won);
+        }
+
+        public void Reset()
+        {
+            for (int i = 0; i < card.Length; i++)
+            {
+                card[i] = 0;
+            }
         }
     }
 }
