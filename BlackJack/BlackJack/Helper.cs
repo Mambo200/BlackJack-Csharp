@@ -10,11 +10,6 @@ namespace BlackJack
 {
     class Helper
     {
-        public void StartGameOutput()
-        {
-            Console.WriteLine("----NEW GAME----");
-        }
-
         /// <summary>
         /// 
         /// </summary>
@@ -72,15 +67,15 @@ namespace BlackJack
             switch (whoWon)
             {
                 case 1:
-                    ColorText("Player 1 wins!", ConsoleColor.Green);
+                    ColorText("Player 1 wins!", ConsoleColor.Green, true);
                     break;
 
                 case 2:
-                    ColorText("Player 2 wins!", ConsoleColor.Green);
+                    ColorText("Player 2 wins!", ConsoleColor.Green, true);
                     break;
 
                 case 3:
-                    ColorText("Tied!", ConsoleColor.Yellow);
+                    ColorText("Tied!", ConsoleColor.Yellow, true);
                     break;
 
                 default:
@@ -95,10 +90,13 @@ namespace BlackJack
         /// </summary>
         /// <param name="_text">The text.</param>
         /// <param name="_color">The color.</param>
-        public void ColorText(string _text, ConsoleColor _color)
+        public void ColorText(string _text, ConsoleColor _color, bool _writelineOn)
         {
             Console.ForegroundColor = _color;
-            Console.WriteLine(_text);
+            if (_writelineOn)
+                Console.WriteLine(_text);
+            else
+                Console.Write(_text);
             Console.ForegroundColor = ConsoleColor.Gray;
         }
 

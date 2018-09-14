@@ -22,10 +22,7 @@ namespace BlackJack
 
 
                 // turn player 1
-                bool dontDrawMore = false;
-
-                // Output new game
-                h.StartGameOutput();
+                bool dontDrawMore = false;                
 
                 // player 1 and 2 draw two cards
                 P1.DrawCard();
@@ -64,7 +61,7 @@ namespace BlackJack
                     dontDrawMore = false;
                 while (!dontDrawMore)
                 {
-                    if (P2.AmountOfPoints(false) >= 16 || P2.AmountOfPoints(false) > P1.AmountOfPoints(false))
+                    if (P2.AmountOfPoints(false) > P1.AmountOfPoints(false) || P2.AmountOfPoints(false) == 21)
                     {
                         dontDrawMore = true;
                     }
@@ -74,11 +71,15 @@ namespace BlackJack
                     }
                 }
 
+                //zwischenergebnis
+                Console.Clear();
+                Console.WriteLine("---Interim Result----");
+                ShowCards(false, true);
                 Console.ReadKey();
 
                 // show final results
                 Console.Clear();
-                Console.WriteLine("---Final Results----");
+                Console.WriteLine("---Final Result----");
                 ShowCards(true);
 
                 // Win Lose output
@@ -104,6 +105,7 @@ namespace BlackJack
         /// <summary>
         /// show cards of both players
         /// </summary>
+        /// <param name="_final">false: with "Draw Card" text, show all cards Player2 exept the first one; true: without text, show all cards Player2</param>
         void ShowCards(bool _final)
         {
 
@@ -118,7 +120,30 @@ namespace BlackJack
                 P2.CardReturn(true, true);
             }
 
-            if(!_final && P1.AmountOfPoints(false) <= 21)
+            if(!_final)
+                Console.WriteLine("\n\n\nDraw Card? (y/n)");
+
+        }
+
+        /// <summary>
+        /// show cards of both players
+        /// </summary>
+        /// <param name="_final">false: show all cards Player2 exept the first one, true: show all cards Player2</param>
+        /// <param name="_interimResult">false: with "Draw Card" text, true: without text</param>
+        void ShowCards(bool _final, bool _interimResult)
+        {
+            P1.CardReturn(false, false);
+
+            if (_final)
+            {
+                P2.CardReturn(true, false);
+            }
+            else
+            {
+                P2.CardReturn(true, true);
+            }
+
+            if (!_interimResult)
                 Console.WriteLine("\n\n\nDraw Card? (y/n)");
 
         }
