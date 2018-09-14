@@ -25,21 +25,18 @@ namespace BlackJack
         /// <param name="_count">false: show all cards, true: show all cards exept the first one</param>
         public void CardReturn(bool _player, bool _count)
         {
+            h.ColorText("\nTotal: ", ConsoleColor.White, false);
+            h.ColorText(won.ToString(), ConsoleColor.White, false);
+            
             // Player 2
             if(_player)
-            {
-                Console.Write("\nTotal: " + won);
                 Console.Write("\nSpieler 2: - ");
-                h.ColorText(AmountOfPoints(_count));
-            }
 
             // Player 1
             else
-            {
-                Console.Write("\nTotal: " + won);
                 Console.Write("\nSpieler 1: - ");
-                h.ColorText(AmountOfPoints(_count));
-            }
+
+            h.ColorText(AmountOfPoints(_count));
 
             for (int i = 0; i < card.Length; i++)
             {
