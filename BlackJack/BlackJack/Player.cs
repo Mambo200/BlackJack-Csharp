@@ -12,6 +12,7 @@ namespace BlackJack
         int won = 0;
         int countDrawCards = 10;
         int[] card = new int[21];
+        static Random rand = new Random();
 
         public int[] CardReturnArray()
         {
@@ -111,9 +112,7 @@ namespace BlackJack
 
         public void DrawCard()
         {
-            System.Threading.Thread.Sleep(countDrawCards);
             countDrawCards++;
-            Random rand = new Random();
 
             // get random number from 1 to 13
             int random = rand.Next(1, 14);
