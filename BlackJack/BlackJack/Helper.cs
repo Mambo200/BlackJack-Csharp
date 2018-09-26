@@ -79,7 +79,8 @@ namespace BlackJack
                     break;
 
                 default:
-                    throw new WinException("Bei der Rechnung ist etwas schief gelaufen. Die Variable 'whoWon' darf nicht 0 oder mehr als 3 sein.\nwhoWon = " + whoWon + ".");
+                    throw new WinException
+                        ("Bei der Rechnung ist etwas schief gelaufen. Die Variable 'whoWon' darf nicht kleiner als 1 oder mehr als 3 sein.\nwhoWon = " + whoWon + ".");
             }
 
             return whoWon;
